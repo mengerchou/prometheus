@@ -15,4 +15,4 @@
       annotations:
         prometheus.io/port: "2112"
         prometheus.io/scrape: "true"
-      creationTimestamp: 2019-04-12T1
+
