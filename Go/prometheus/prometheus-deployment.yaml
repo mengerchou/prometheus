@@ -1,0 +1,58 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  labels:
+    name: prometheus-deployment
+  name: prometheus
+  namespace: monitor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+      - image: prom/prometheus
+        name: prometheus
+        command:
+        - "/bin/prometheus"
+        args:
+        - "--config.file=/etc/prometheus/prometheus.yml"
+        - "--storage.tsdb.path=/prometheus"
+        - "--storage.tsdb.retention=168h"
+        ports:
+        - containerPort: 9090
+          protocol: TCP
+        volumeMounts:
+        - mountPath: "/prometheus"
+          name: data
+        - mountPath: "/etc/prometheus"
+          name: config-volume
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 4000m
+            memory: 8096Mi
+      serviceAccount: prometheus
+      serviceAccountName: prometheus
+#      nodeSelector:  
+#        role: mon
+#      tolerations:
+#      - effect: NoSchedule
+#        key: trole
+#        operator: Equal
+#        value: mon
+      volumes:
+      - name: data
+        hostPath:
+          path: "/prometheus/data/"
+          type: Directory
+      - name: config-volume
+        configMap:
+          name: prometheus-config     
