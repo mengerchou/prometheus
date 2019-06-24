@@ -8,11 +8,11 @@
 	这部分参考：https://github.com/prometheus/client_golang
 		    https://github.com/grpc-ecosystem/go-grpc-prometheus
 		    目录下的/go-sql-prometheus
-		    
+'''yaml	    
 3: 修改业务deployment的yaml在template下添加
   template:
     metadata:
       annotations:
         prometheus.io/port: "2112"
         prometheus.io/scrape: "true"
-
+'''
