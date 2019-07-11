@@ -27,8 +27,7 @@ cat /data/prometheus-2.3.2/conf.d/mysql-discovery.json
 [{"targets": ["yourip:9104"],"labels": {"instance": "xxxxx"}},{"targets": ["yourip:9105"],"labels": {"instance": "xxx"}}]
 ```
 
-4、导入grafana的dashboard：在mysql目录文件夹下
-
+3、导入grafana的dashboard：在mysql目录文件夹下
 
 
 
