@@ -1,9 +1,8 @@
 ```
 一：写在前面
 现在有许多云厂商，我们的监控只能从平台中取，往往有许多细节万一对方不支持就无法监控，下面来一波实战，让我们能够轻松的监控云上的mysql
-```
 
-二：实战：
+
 1、找一台和rds网络通并且加入了白名单的机器作为中转：机器上需要安装docker
 ```bash
 cat new.sh 
@@ -29,7 +28,7 @@ cat /data/prometheus-2.3.2/conf.d/mysql-discovery.json
 ```
 
 4、导入grafana的dashboard：在mysql目录文件夹下
-```
+
 
 
 
