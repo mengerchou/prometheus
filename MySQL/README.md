@@ -24,7 +24,7 @@ docker run -d \
 mysql-discovery.json内容如下：
 ```json
 cat /data/prometheus-2.3.2/conf.d/mysql-discovery.json
-[{"targets": ["10.115.143.205:9104"],"labels": {"instance": "pro-ab-test"}},{"targets": ["10.115.143.205:9105"],"labels": {"instance": "pro-svc-todo"}}]
+[{"targets": ["yourip:9104"],"labels": {"instance": "xxxxx"}},{"targets": ["yourip:9105"],"labels": {"instance": "xxx"}}]
 ```
 
 4、导入grafana的dashboard：在mysql目录文件夹下
