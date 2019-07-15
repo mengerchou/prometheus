@@ -1,0 +1,10 @@
+groups:
+- name: dingtalk
+  rules:
+  - alert: dingtalk api 调用过多
+    expr: sum(irate(dingtalk_api_call{}[1m])) > 120
+    for: 1m
+    labels:
+      severity: warning
+    annotations:
+      summary: "钉钉 API 调用过多, 当前 {{ $value }} qps"

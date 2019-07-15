@@ -17,21 +17,44 @@ spec:
     spec:
       containers:
       - image: prom/prometheus
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /-/healthy
+            port: 9090
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 2
+          successThreshold: 1
+          timeoutSeconds: 30
         name: prometheus
         command:
         - "/bin/prometheus"
         args:
         - "--config.file=/etc/prometheus/prometheus.yml"
+        - --web.enable-lifecycle
         - "--storage.tsdb.path=/prometheus"
         - "--storage.tsdb.retention=168h"
         ports:
         - containerPort: 9090
           protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /-/ready
+            port: 9090
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 2
+          successThreshold: 2
+          timeoutSeconds: 30  
         volumeMounts:
         - mountPath: "/prometheus"
           name: data
         - mountPath: "/etc/prometheus"
           name: config-volume
+        - mountPath: /etc/prometheus_rule
+          name: prometheus-rule  
         resources:
           requests:
             cpu: 100m
@@ -41,13 +64,13 @@ spec:
             memory: 8096Mi
       serviceAccount: prometheus
       serviceAccountName: prometheus
-#      nodeSelector:  
-#        role: mon
-#      tolerations:
-#      - effect: NoSchedule
-#        key: trole
-#        operator: Equal
-#        value: mon
+      nodeSelector:  
+        role: mon
+      tolerations:
+      - effect: NoSchedule
+        key: trole
+        operator: Equal
+        value: mon
       volumes:
       - name: data
         hostPath:
@@ -55,4 +78,7 @@ spec:
           type: Directory
       - name: config-volume
         configMap:
-          name: prometheus-config     
+          name: prometheus-config 
+      - name: prometheus-rule
+        configMap:
+          name: prometheus-recordrule   

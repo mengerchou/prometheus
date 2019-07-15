@@ -1,0 +1,10 @@
+groups:
+- name: gRPC
+  rules:
+  - alert: gRPC 错误过多
+    expr: sum(rate(grpc_server_handled_total{grpc_type="unary",grpc_code=~"Unknown|Canceled|DeadlineExceeded|ResourceExhausted|Unimplemented|Internal|Unavailable|DataLoss"}[1m])) by (grpc_service) / sum(rate(grpc_server_handled_total{grpc_type="unary"}[1m])) by (grpc_service) > 0.0001
+    for: 1m
+    labels:
+      severity: warning
+    annotations:
+      summary: "服务 {{ $labels.grpc_service }} 错误率过高，当前错误率 {{ $value }}"

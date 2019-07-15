@@ -1,0 +1,9 @@
+groups:
+- name: user
+  rules:
+  - alert: user 占用内存过高
+    expr: process_resident_memory_bytes{app=~"smpro-svc-user"} > 8e8
+    labels:
+      severity: warning
+    annotations:
+      summary: "实例 {{ $labels.kubernetes_pod_name }} 占用内存过高，当前内存 {{ $value }}"

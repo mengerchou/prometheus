@@ -1,0 +1,10 @@
+groups:
+- name: nginx
+  rules:
+  - alert: nginx
+    expr: sum by(ingress) (rate(nginx_ingress_controller_requests{ingress!~ "502|baidu-mp-v2",status=~"5.*"}[1m])) / sum by(ingress) (rate(nginx_ingress_controller_requests{ingress!~"502|baidu-mp-v2"}[1m]))  > 0.01
+    for: 1m
+    labels:
+      severity: warning
+    annotations:
+      summary:  "ingress {{ $labels.ingress }}500以上率过高，当前比例: {{ $value }}"

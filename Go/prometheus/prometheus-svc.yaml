@@ -6,7 +6,7 @@ metadata:
   name: prometheus
   namespace: monitor
 spec:
-  type: nodeport
+  type: NodePort
   ports:
   - name: prometheus
     port: 9090

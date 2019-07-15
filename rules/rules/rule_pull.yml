@@ -1,0 +1,11 @@
+groups:
+  - name: pull
+    rules:
+    - record: pull:qps
+      expr: sum(irate(nginx_ingress_controller_requests{ingress="lizard-api-files-pull"}[1m]))
+    - alert: pull qps 波动过大
+      expr: max_over_time(pull:qps[5m])-min_over_time(pull:qps[5m]) > 500
+      labels:
+        severity: warning
+      annotations:
+        summary: "pull qps 波动过大，5m 内波动 {{ $value }} qps"
