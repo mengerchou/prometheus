@@ -1,12 +1,14 @@
 kind: Service
 apiVersion: v1
 metadata:
+  annotations:
+    service.beta.kubernetes.io/alicloud-loadbalancer-AddressType: "intranet"
   labels:
     app: prometheus
   name: prometheus
   namespace: monitor
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - name: prometheus
     port: 9090

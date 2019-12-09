@@ -18,3 +18,8 @@ https://github.com/grpc-ecosystem/go-grpc-prometheus
         prometheus.io/port: "2112"
         prometheus.io/scrape: "true"
 ```
+```
+```yaml
+修改svc的yaml添加
+     prometheus.io/probe: "true"
+```
